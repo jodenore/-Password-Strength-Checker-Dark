@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/reset.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <title>Password Strength Checker</title>
+  </head>
+  <body>
+    <main class="py-4">
+      <div class="container">
+        <div class="row justify-content-center">
+          <article class="col-12 col-lg-7 text-center password-card px-4">
+            <div class="password-card-header">
+              <h1 class="password-card-title">J Vault</h1>
+              <p class="password-subtitle">
+                Check password strength and confirm both entries match.
+              </p>
+            </div>
+            <div class="password-box">
+              <form class="password-form">
+                <div class="password-field">
+                  <div class="password-field-head">
+                    <label class="password-label" for="password-box-1"
+                      >Password</label
+                    >
+                    <p class="password-category-label">Weak</p>
+                  </div>
+                  <input
+                    type="password"
+                    class="password-input field-danger"
+                    id="password-box-1"
+                    placeholder="Minimum 8 Characters"
+                  />
+                  <div class="show-password-field align-self-start">
+                    <button type="button" class="show-password-button">
+                      <i class="fa-solid fa-eye-slash"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="confirm-password-field">
+                  <label class="password-label" for="password-box-2"
+                    >Confirm Password</label
+                  >
+                  <input
+                    type="password"
+                    class="password-input"
+                    id="password-box-2"
+                    placeholder="Should be equal to the password"
+                  />
+                </div>
+              </form>
+            </div>
+            <ul class="password-checklist px-2">
+              <li class="password-feedback danger" id="flag-one">
+                <i class="fa-solid fa-x"></i>
+                <p>At least 8 characters</p>
+              </li>
+
+              <li class="password-feedback danger">
+                <i class="fa-solid fa-x"></i>
+                <p>At least 1 lowercase character</p>
+              </li>
+
+              <li class="password-feedback danger">
+                <i class="fa-solid fa-x"></i>
+                <p>At least 1 uppercase character</p>
+              </li>
+
+              <li class="password-feedback danger">
+                <i class="fa-solid fa-x"></i>
+                <p>At least 2 numbers</p>
+              </li>
+
+              <li class="password-feedback danger">
+                <i class="fa-solid fa-x"></i>
+                <p>One special character (!@#$%*=)</p>
+              </li>
+
+              <li class="password-feedback danger">
+                <i class="fa-solid fa-x"></i>
+                <p>
+                  Password should not be common ('password', 'test', 'letmein'
+                  'admin' 'welcome')
+                </p>
+              </li>
+              <li class="password-feedback danger">
+                <i class="fa-solid fa-x"></i>
+                <p>Passwords should match</p>
+              </li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Font Awesome CDN -->
+    <script
+      src="https://kit.fontawesome.com/67012fe73b.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="script.js">
+      // let testBox = document.querySelector("input");
+      // let firstRule = document.querySelector("li");
+
+      // let passwordText = "";
+
+      // function testFunction(event) {
+      //   passwordText = event.target.value;
+      //   console.log(event.key);
+      //   if (passwordText.length > 8) {
+      //     firstRule.style.color = "green";
+      //     testBox.style.borderColor = "green";
+      //   } else {
+      //     firstRule.style.color = "red";
+      //     testBox.style.borderColor = "red";
+      //   }
+      // }
+
+      testBox.addEventListener("keydown", testFunction);
+    </script>
+  </body>
+</html>
+
+<!-- <i class="fa-solid fa-check"></i> -->

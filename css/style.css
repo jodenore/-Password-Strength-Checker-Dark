@@ -1,0 +1,228 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");
+
+:root {
+  --bg: 255, 252, 251;
+  --surface: 255, 255, 255;
+  --text: 58, 58, 58;
+  --muted: 166, 166, 166;
+  --border: 221, 221, 221;
+
+  --accent: 229, 57, 53;
+  --warning: 245, 158, 11;
+  --success: 34, 197, 94;
+  --strong: 102, 167, 241;
+  --field-danger: 229, 57, 53;
+  --focus: 17, 17, 17;
+
+  --font-primary: "Inter", sans-serif;
+  --font-code: "JetBrains Mono", monospace;
+}
+
+[data-bs-theme="dark"] {
+  --bg: 7, 7, 10;
+  --surface: 36, 39, 43;
+  --text: 236, 240, 245;
+  --muted: 132, 140, 148;
+  --border: 74, 82, 90;
+
+  --accent: 0, 75, 168;
+  --warning: 245, 158, 11;
+  --success: 34, 197, 94;
+
+  --field-danger: 0, 75, 168;
+  --focus: 62, 120, 178;
+
+  --font-primary: "Inter", sans-serif;
+  --font-code: "JetBrains Mono", monospace;
+}
+
+body {
+  background-color: rgb(var(--bg));
+  color: rgb(var(--text));
+  font-family: var(--font-primary);
+  line-height: 1.6;
+}
+
+/* start */
+
+main {
+  min-height: 100vh;
+}
+
+.password-card {
+  border: none;
+  padding-block: 1.3rem;
+  padding-inline: 2.4rem;
+  background-color: rgb(var(--surface));
+  border: 1px solid none;
+  border-radius: 1.5rem;
+  box-shadow:
+    rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+    rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+
+.password-card-header {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.password-card h1 {
+  font-size: 3.2rem;
+  font-weight: 800;
+  font-family: var(--font-code);
+  line-height: 0.95;
+  letter-spacing: 0.04em;
+}
+
+.password-subtitle {
+  color: rgb(var(--muted));
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.password-card-title {
+  margin-bottom: 1.2rem;
+  color: rgb(var(--text));
+  font-size: 2.6rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.password-box {
+  margin-bottom: 1.3rem;
+}
+
+.password-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.password-field,
+.confirm-password-field {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  padding-bottom: 3rem;
+}
+
+.password-field-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.password-label {
+  text-align: left;
+  color: rgb(var(--muted));
+  text-align: left;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition:
+    color 3s ease,
+    transform 3s ease;
+}
+
+.password-category-label {
+  color: rgb(var(--muted));
+  margin-bottom: 0px;
+  text-align: right;
+  font-weight: 600;
+}
+
+.password-input {
+  width: 100%;
+  border: none;
+  border-radius: 0px;
+  border-bottom: 2px solid rgb(var(--field-danger));
+  color: var(--text);
+  font-family: var(--font-code);
+  font-size: 1.1rem;
+  line-height: 1.5;
+  background-color: transparent;
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.password-input:focus {
+  outline: none;
+  border-bottom-color: rgb(var(--focus));
+}
+
+input::placeholder {
+  color: rgb(var(--muted));
+  font: var(--font-primary);
+  font-size: 1rem;
+}
+
+/* show password button */
+
+@media (min-width: 976px) {
+  .password-category-label {
+    position: absolute;
+    top: 30px;
+    right: 0px;
+  }
+}
+
+/* checkbox / flags / feedback */
+
+.password-checklist {
+  display: flex;
+  flex-direction: column;
+}
+
+.password-feedback {
+  display: flex;
+  flex-direction: row;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+  gap: 0.4rem;
+  padding: 0.3rem;
+}
+
+.password-feedback i {
+  margin-top: 0.2rem;
+  font-size: 0.95rem;
+}
+
+.password-feedback p {
+  font-size: 1rem;
+  line-height: 1.4;
+  font-weight: 500;
+}
+.danger {
+  color: rgb(var(--field-danger));
+}
+
+.strong {
+  color: rgb(var(--strong));
+}
+
+.success {
+  color: rgb(var(--success));
+}
+
+.field-danger {
+  border-color: rgb(var(--field-danger));
+}
+
+.field-strong {
+  border-color: rgb(var(--strong));
+}
+
+.field-success {
+  border-color: rgb(var(--success));
+}
+
+/* .fa-check {
+  margin-block: 0.4rem;
+  font-size: 0.8rem;
+} */
