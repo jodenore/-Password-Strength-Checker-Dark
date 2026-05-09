@@ -37,10 +37,16 @@
 }
 
 body {
-  background-color: rgb(var(--bg));
+  background-color: rgb(var(--surface));
   color: rgb(var(--text));
   font-family: var(--font-primary);
   line-height: 1.6;
+  scroll-behavior: smooth;
+}
+@media (min-width: 576px) {
+  body {
+    background-color: rgb(var(--bg));
+  }
 }
 
 /* start */
@@ -162,6 +168,26 @@ input::placeholder {
 }
 
 /* show password button */
+.show-password-field {
+  margin-top: 0.8rem;
+}
+
+.show-password-button {
+  display: inline-flex;
+  border: none;
+  background-color: transparent;
+  color: rgb(var(--muted));
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.show-password-button:hover,
+.show-password-button:focus-visible {
+  outline: none;
+  color: rgb(var(--text));
+}
 
 @media (min-width: 976px) {
   .password-category-label {
@@ -222,7 +248,31 @@ input::placeholder {
   border-color: rgb(var(--success));
 }
 
-/* .fa-check {
-  margin-block: 0.4rem;
-  font-size: 0.8rem;
-} */
+/* footer */
+
+.site-footer {
+  margin-top: 1rem;
+  padding-block: 0.3rem;
+  background-color: rgb(var(--surface));
+}
+
+.footer-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.4rem;
+}
+
+.footer-logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+@media (min-width: 992px) {
+  .footer-container {
+    flex-direction: row;
+    gap: 1.1rem;
+  }
+}

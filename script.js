@@ -1,9 +1,10 @@
-// DOM
+// DOM elements
 const passwordInput = document.querySelector("#password-box-1");
-const confirmPasswordBox = document.querySelector("#password-box-2");
+const confirmPasswordInput = document.querySelector("#password-box-2");
 const strengthLabel = document.querySelector(".password-category-label");
 const requirementsList = document.querySelector("ul").children;
-// requirements
+const togglePasswordButton = document.querySelector(".show-password-button");
+// Password requirements
 const [
   lengthRequirement,
   lowercaseRequirement,
@@ -14,24 +15,29 @@ const [
   matchedPasswordsRequirement,
 ] = requirementsList;
 
+// stores the current pass/fail state for each p rule
 let passwordRules = {
   hasMinimumLength: false,
   hasLowercase: false,
   hasUppercase: false,
   hasTwoNumbers: false,
   hasSpecialCharacter: false,
+  // starts as true because the password field is empty
   hasUncommonPassword: true,
   hasMatchedPasswords: false,
 };
 
+// on page load pick a random minimum length from 8 to 13
 let minimumPasswordLength = Math.floor(Math.random() * (8 - 14) + 14);
-const lengthRequirementBox = lengthRequirement.children[1];
-lengthRequirementBox.textContent = `At least ${minimumPasswordLength} characters`;
+const lengthRequirementText = lengthRequirement.children[1];
+lengthRequirementText.textContent = `At least ${minimumPasswordLength} characters`;
 
+// passwords that fail the uncommon password requirement
 let commonPasswords = ["password", "test", "letmein", "admin", "welcome"];
 
+// current passed requirements
 let strengthCount = 0;
-const incrementStrength = () => {
+const updateStrengthCount = () => {
   const successFullRules = Object.keys(passwordRules).filter((rule) => {
     return passwordRules[rule];
   });
@@ -39,6 +45,7 @@ const incrementStrength = () => {
   strengthCount = successFullRules.length;
 };
 
+// helpers for reading and updating requirement statuses
 const setRule = (rule) => {
   if (passwordRules[rule] === undefined) {
     return;
@@ -52,6 +59,8 @@ const failRule = (rule) => {
   }
   passwordRules[rule] = false;
 };
+
+// update a requirement's icon and color in the checklist
 
 const getRule = (rule) => {
   return passwordRules[rule];
@@ -71,7 +80,9 @@ function ruleError(rule) {
   rule.classList.add("danger");
 }
 
-function checkCharacterMinimum(inputValue) {
+// check the password against randomized minimum lengths
+
+function validateMinimumLength(inputValue) {
   inputValue.length >= minimumPasswordLength
     ? setRule("hasMinimumLength")
     : failRule("hasMinimumLength");
@@ -79,7 +90,7 @@ function checkCharacterMinimum(inputValue) {
     ? ruleSuccess(lengthRequirement)
     : ruleError(lengthRequirement);
 }
-
+// password character based requirements: lowercase, uppercase, numbers and special characters
 const checkChars = (inputValue) => {
   let lowerCaseChars = inputValue.split("").filter((char) => {
     if (char >= "a" && char <= "z") {
@@ -103,6 +114,8 @@ const checkChars = (inputValue) => {
 
     return charsToInclude.includes(char);
   });
+
+  // store result of each requirement check
 
   lowerCaseChars.length > 0
     ? setRule("hasLowercase")
@@ -133,32 +146,38 @@ const checkChars = (inputValue) => {
     ? ruleSuccess(specialCharacterRequirement)
     : ruleError(specialCharacterRequirement);
 };
-
+// requirement fails if password contains any blocked common password
 const checkCommonPasswords = () => {
-  let passwordValue = passwordInput.value;
-  passwordRules.hasUncommonPassword = !commonPasswords.some((char) => {
-    return passwordValue.includes(char.toLowerCase());
-  });
+  let passwordValue = passwordInput.value.toLowerCase();
+  passwordRules.hasUncommonPassword = !commonPasswords.some(
+    (commonPassword) => {
+      return passwordValue.includes(commonPassword.toLowerCase());
+    },
+  );
 
   getRule("hasUncommonPassword")
     ? ruleSuccess(uncommonPasswordRequirement)
     : ruleError(uncommonPasswordRequirement);
 };
 
+// show uncommon password requirement as pass before the user types.
 getRule("hasUncommonPassword")
   ? ruleSuccess(uncommonPasswordRequirement)
   : ruleError(uncommonPasswordRequirement);
 
+// update the strength label and password input color from the current rule status.
 const mainStrengthChecker = () => {
-  incrementStrength();
+  updateStrengthCount();
 
-  let everyRequirementTrue = Object.keys(passwordRules).every(
+  let hasPassedEveryRequirement = Object.keys(passwordRules).every(
     (requirement) => passwordRules[requirement],
   );
-  console.log("every requirement", everyRequirementTrue);
+
+  //
+
   switch (true) {
-    case strengthCount >= 3 && strengthCount <= 5:
-      strengthLabel.textContent = "Semi-secure";
+    case strengthCount >= 3 && strengthCount <= 6:
+      strengthLabel.textContent = "Strong 😁";
       strengthLabel.classList.remove("danger");
       strengthLabel.classList.add("strong");
       strengthLabel.classList.remove("success");
@@ -166,8 +185,8 @@ const mainStrengthChecker = () => {
       passwordInput.classList.add("field-strong");
       passwordInput.classList.remove("field-success");
       break;
-    case everyRequirementTrue:
-      strengthLabel.textContent = "Strong 😁";
+    case hasPassedEveryRequirement:
+      strengthLabel.textContent = "Very Strong 🔒";
       strengthLabel.classList.remove("danger");
       strengthLabel.classList.remove("strong");
       strengthLabel.classList.add("success");
@@ -186,33 +205,48 @@ const mainStrengthChecker = () => {
       break;
   }
 };
-function comparePasswordBoxes() {
+// confirm confirmation password matches the main password
+function checkPasswordInputs() {
+  // wait until the user has entered a password / is not empty before comparing password inputs
   if (!passwordInput.value) {
     return;
   }
-  passwordInput.value === confirmPasswordBox.value
+
+  passwordInput.value === confirmPasswordInput.value
     ? setRule("hasMatchedPasswords")
     : failRule("hasMatchedPasswords");
+
   getRule("hasMatchedPasswords")
     ? (ruleSuccess(matchedPasswordsRequirement),
-      confirmPasswordBox.classList.add("field-success"))
+      confirmPasswordInput.classList.add("field-success"))
     : (ruleError(matchedPasswordsRequirement),
-      confirmPasswordBox.classList.remove("field-success"));
+      confirmPasswordInput.classList.remove("field-success"));
 
   mainStrengthChecker();
 }
 
 function handlePasswordInput(event) {
-  //   console.log(event.currentTarget);
-  // At least minimumPasswordLength random range of  characters
-  checkCharacterMinimum(event.target.value);
+  validateMinimumLength(event.target.value);
   checkChars(event.target.value);
   checkCommonPasswords();
-  comparePasswordBoxes();
+  checkPasswordInputs();
   mainStrengthChecker();
-  //   console.log(checkPasswordCharacters(event.target.value));
-  //   console.log(hasLowercase);
 }
 
+// toggle Password visibility depending on password input's type
+
+function toggleVisibility() {
+  passwordInput.type === "password"
+    ? (passwordInput.type = "text")
+    : (passwordInput.type = "password");
+  toggleEye(togglePasswordButton);
+}
+
+function toggleEye(element) {
+  element.children[0].classList.toggle("fa-eye-slash");
+  element.children[0].classList.toggle("fa-eye");
+}
+// DOM events
 passwordInput.oninput = handlePasswordInput;
-confirmPasswordBox.oninput = comparePasswordBoxes;
+confirmPasswordInput.oninput = checkPasswordInputs;
+togglePasswordButton.onclick = toggleVisibility;
