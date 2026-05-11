@@ -41,7 +41,6 @@ const updateStrengthCount = () => {
   const successFullRules = Object.keys(passwordRules).filter((rule) => {
     return passwordRules[rule];
   });
-  console.log(successFullRules);
   strengthCount = successFullRules.length;
 };
 
@@ -172,18 +171,22 @@ const mainStrengthChecker = () => {
   let hasPassedEveryRequirement = Object.keys(passwordRules).every(
     (requirement) => passwordRules[requirement],
   );
-
+  console.log(hasPassedEveryRequirement);
   //
 
   switch (true) {
-    case strengthCount >= 3 && strengthCount <= 6:
-      strengthLabel.textContent = "Strong 😁";
+    case strengthCount >= 3 && strengthCount <= 5:
+      strengthLabel.textContent = "Kinda Strong 😁";
       strengthLabel.classList.remove("danger");
       strengthLabel.classList.add("strong");
       strengthLabel.classList.remove("success");
       passwordInput.classList.remove("field-danger");
       passwordInput.classList.add("field-strong");
       passwordInput.classList.remove("field-success");
+      break;
+
+    case strengthCount >= 6 && strengthCount <= 7:
+      strengthLabel.textContent = "Strong 💪";
       break;
     case hasPassedEveryRequirement:
       strengthLabel.textContent = "Very Strong 🔒";
@@ -226,6 +229,7 @@ function checkPasswordInputs() {
 }
 
 function handlePasswordInput(event) {
+  console.log(passwordRules);
   validateMinimumLength(event.target.value);
   checkChars(event.target.value);
   checkCommonPasswords();
